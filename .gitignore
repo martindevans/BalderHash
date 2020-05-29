@@ -1,0 +1,10 @@
+*.ncrunchsolution
+*.user
+
+.vs
+
+BalderHash/bin
+BalderHash/obj
+
+BalderHashTests/bin
+BalderHashTests/obj
