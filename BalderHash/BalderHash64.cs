@@ -18,29 +18,24 @@ namespace BalderHash
 
         public static BalderHash64? Parse(string str)
         {
-            var parts = str.Split('-');
-            if (parts.Length != 4)
+            return Parse(str.AsSpan());
+        }
+
+        public static BalderHash64? Parse(ReadOnlySpan<char> str)
+        {
+            // Check format
+            if (str.Length != 27 || str[6] != '-' || str[13] != '-' || str[20] != '-')
                 return null;
 
-            var ab = parts[0];
-            if (ab.Length != 6)
-                return null;
-            var cd = parts[1];
-            if (cd.Length != 6)
-                return null;
-            var ef = parts[2];
-            if (ef.Length != 6)
-                return null;
-            var gh = parts[3];
-            if (gh.Length != 6)
-                return null;
+            // Parse the 2 halves
+            var abcd = BalderHash32.Parse(str.Slice(0, 13));
+            var efgh = BalderHash32.Parse(str.Slice(14, 13));
 
-            var abcd = BalderHash32.Parse($"{ab}-{cd}");
-            var efgh = BalderHash32.Parse($"{ef}-{gh}");
-
+            // Check that they were valid
             if (!abcd.HasValue || !efgh.HasValue)
                 return null;
 
+            // Convert to value
             var value = ((ulong)abcd.Value.Value << 32) | efgh.Value.Value;
             unchecked
             {
