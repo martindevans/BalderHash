@@ -48,7 +48,7 @@ namespace BalderHash
         private static readonly TripleCharKeyStorage _prefixes = new TripleCharKeyStorage(Prefixes);
         private static readonly TripleCharKeyStorage _suffixes = new TripleCharKeyStorage(Suffixes);
 
-        public static int FindPrefix(ReadOnlySpan<char> triple)
+        public static int GetPrefixIndex(ReadOnlySpan<char> triple)
         {
             return _prefixes.GetIndex(triple);
         }
@@ -58,7 +58,7 @@ namespace BalderHash
             return Prefixes[index];
         }
 
-        public static int FindSuffix(ReadOnlySpan<char> triple)
+        public static int GetSuffixIndex(ReadOnlySpan<char> triple)
         {
             return _suffixes.GetIndex(triple);
         }

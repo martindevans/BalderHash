@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BalderHash;
 using BalderHash.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,6 +19,18 @@ namespace BalderHashTests
             Assert.IsNull(BalderHash32.Parse("hello"));
             Assert.IsNull(BalderHash32.Parse("hello-world"));
             Assert.IsNull(BalderHash32.Parse("molryc-world"));
+        }
+
+        [TestMethod]
+        public void ToSpanInvalid()
+        {
+#pragma warning disable MSTEST0051
+            Assert.Throws<ArgumentException>(() =>
+#pragma warning restore MSTEST0051
+            {
+                Span<char> span = stackalloc char[11];
+                new BalderHash32(1234).ToSpan(span);
+            });
         }
 
         [TestMethod]

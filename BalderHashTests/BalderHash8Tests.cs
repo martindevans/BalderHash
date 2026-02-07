@@ -20,6 +20,19 @@ namespace BalderHashTests
             Assert.IsNull(BalderHash8.Parse("hello"));
             Assert.IsNull(BalderHash8.Parse("hello"));
             Assert.IsNull(BalderHash8.Parse("world"));
+            Assert.IsNull(BalderHash8.Parse("zad"));
+        }
+
+        [TestMethod]
+        public void ToSpanInvalid()
+        {
+#pragma warning disable MSTEST0051
+            Assert.Throws<ArgumentException>(() =>
+#pragma warning restore MSTEST0051
+            {
+                Span<char> span = stackalloc char[2];
+                new BalderHash8(134).ToSpan(span);
+            });
         }
 
         [TestMethod]

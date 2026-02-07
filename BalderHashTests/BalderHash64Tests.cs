@@ -21,6 +21,21 @@ namespace BalderHashTests
             Assert.IsNull(BalderHash64.Parse("hello"));
             Assert.IsNull(BalderHash64.Parse("hello-world"));
             Assert.IsNull(BalderHash64.Parse("molryc-world"));
+
+            Assert.IsNull(BalderHash64.Parse("midpen-ladbep-namweg-p1lnus"));
+            Assert.IsNull(BalderHash64.Parse("m1dpen-ladbep-namweg-pilnus"));
+        }
+
+        [TestMethod]
+        public void ToSpanInvalid()
+        {
+#pragma warning disable MSTEST0051
+            Assert.Throws<ArgumentException>(() =>
+#pragma warning restore MSTEST0051
+            {
+                Span<char> span = stackalloc char[123];
+                new BalderHash64(1234).ToSpan(span);
+            });
         }
 
         [TestMethod]

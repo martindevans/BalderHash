@@ -31,11 +31,11 @@ namespace BalderHash
             var a = str.Slice(0, 3);
             var b = str.Slice(3, 3);
 
-            var an = FindPrefix(a);
+            var an = GetPrefixIndex(a);
             if (an < 0)
                 return null;
 
-            var bn = FindSuffix(b);
+            var bn = GetSuffixIndex(b);
             if (bn < 0)
                 return null;
 
@@ -61,6 +61,16 @@ namespace BalderHash
 
         public override string ToString()
         {
+            Span<char> span = stackalloc char[6];
+            ToSpan(span);
+            return span.ToString();
+        }
+
+        public void ToSpan(Span<char> output)
+        {
+            if (output.Length != 6)
+                throw new ArgumentException("Output span must be exactly Length=6", nameof(output));
+
             var number = Value;
             unchecked
             {
@@ -75,7 +85,8 @@ namespace BalderHash
                 var a = GetPrefix(bytes[0]);
                 var b = GetSuffix(bytes[1]);
 
-                return $"{a}{b}";
+                a.AsSpan().CopyTo(output.Slice(0, 3));
+                b.AsSpan().CopyTo(output.Slice(3, 3));
             }
         }
     }

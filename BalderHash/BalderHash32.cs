@@ -44,16 +44,16 @@ namespace BalderHash
             var d = cd.Slice(3, 3);
 
             // Convert to indices
-            var an = FindPrefix(a);
+            var an = GetPrefixIndex(a);
             if (an < 0)
                 return null;
-            var bn = FindSuffix(b);
+            var bn = GetSuffixIndex(b);
             if (bn < 0)
                 return null;
-            var cn = FindPrefix(c);
+            var cn = GetPrefixIndex(c);
             if (cn < 0)
                 return null;
-            var dn = FindSuffix(d);
+            var dn = GetSuffixIndex(d);
             if (dn < 0)
                 return null;
 

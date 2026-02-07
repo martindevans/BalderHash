@@ -48,6 +48,16 @@ namespace BalderHash
 
         public override string ToString()
         {
+            Span<char> span = stackalloc char[27];
+            ToSpan(span);
+            return span.ToString();
+        }
+
+        public void ToSpan(Span<char> output)
+        {
+            if (output.Length != 27)
+                throw new ArgumentException("Output span must be exactly Length=6", nameof(output));
+
             var number = Value;
             unchecked
             {
@@ -65,7 +75,9 @@ namespace BalderHash
                 var abcd = new BalderHash32(n1);
                 var efgh = new BalderHash32(n2);
 
-                return $"{efgh}-{abcd}";
+                efgh.ToSpan(output.Slice(0, 13));
+                output[13] = '-';
+                abcd.ToSpan(output.Slice(14, 13));
             }
         }
     }

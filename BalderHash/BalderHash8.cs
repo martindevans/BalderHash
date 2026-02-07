@@ -25,7 +25,7 @@ namespace BalderHash
 
             var a = str.Slice(0, 3);
 
-            var an = FindSuffix(a);
+            var an = GetSuffixIndex(a);
             if (an < 0)
                 return null;
 
@@ -34,7 +34,17 @@ namespace BalderHash
 
         public override string ToString()
         {
-            return GetSuffix(Value);
+            Span<char> span = stackalloc char[3];
+            ToSpan(span);
+            return span.ToString();
+        }
+
+        public void ToSpan(Span<char> output)
+        {
+            if (output.Length != 3)
+                throw new ArgumentException("Output span must be exactly Length=3", nameof(output));
+
+            GetSuffix(Value).AsSpan().CopyTo(output);
         }
     }
 }

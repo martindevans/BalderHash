@@ -20,6 +20,19 @@ namespace BalderHashTests
             Assert.IsNull(BalderHash16.Parse("hello"));
             Assert.IsNull(BalderHash16.Parse("hello"));
             Assert.IsNull(BalderHash16.Parse("world"));
+            Assert.IsNull(BalderHash16.Parse("t4mwex"));
+        }
+
+        [TestMethod]
+        public void ToSpanInvalid()
+        {
+#pragma warning disable MSTEST0051
+            Assert.Throws<ArgumentException>(() =>
+#pragma warning restore MSTEST0051
+            {
+                Span<char> span = stackalloc char[11];
+                new BalderHash16(1234).ToSpan(span);
+            });
         }
 
         [TestMethod]
