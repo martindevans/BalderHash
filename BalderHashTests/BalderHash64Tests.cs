@@ -41,12 +41,20 @@ namespace BalderHashTests
         [TestMethod]
         public void Roundtrip()
         {
-            const ulong a = 232342389035467834;
-            var str = a.BalderHash();
-            Console.WriteLine(str);
-            var b = BalderHash64.Parse(str);
-            Assert.IsNotNull(b);
-            Assert.AreEqual(a, b.Value.Value);
+            var rng = new Random(568746);
+
+            Span<char> buffer = stackalloc char[27];
+
+            for (var i = 0; i < 1_000_000; i++)
+            {
+                var a = unchecked((ulong)rng.NextInt64());
+
+                a.BalderHash(buffer);
+                var b = BalderHash64.Parse(buffer);
+
+                Assert.IsTrue(b.HasValue);
+                Assert.AreEqual(a, b.Value.Value);
+            }
         }
 
         [TestMethod]

@@ -56,7 +56,7 @@ namespace BalderHash
         public void ToSpan(Span<char> output)
         {
             if (output.Length != 27)
-                throw new ArgumentException("Output span must be exactly Length=6", nameof(output));
+                throw new ArgumentException("Output span must be exactly Length=27", nameof(output));
 
             var number = Value;
             unchecked

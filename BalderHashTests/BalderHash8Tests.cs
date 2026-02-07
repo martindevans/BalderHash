@@ -92,9 +92,13 @@ namespace BalderHashTests
         [TestMethod]
         public void Roundtrip()
         {
+            Span<char> buffer = stackalloc char[3];
+
             for (var i = 0; i <= byte.MaxValue; i++)
             {
-                var str = ((byte)i).BalderHash();
+                ((byte)i).BalderHash(buffer);
+
+                var str = buffer.ToString();
                 Console.WriteLine(str);
                 var b = BalderHash8.Parse(str);
 

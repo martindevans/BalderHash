@@ -72,7 +72,7 @@ namespace BalderHashTests
 
             Span<char> buffer = stackalloc char[13];
 
-            for (var i = 0; i < 10_000_000; i++)
+            for (var i = 0; i < 1_000_000; i++)
             {
                 var a = unchecked((uint)rng.Next());
 

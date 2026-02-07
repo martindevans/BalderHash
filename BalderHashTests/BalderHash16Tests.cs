@@ -78,11 +78,15 @@ namespace BalderHashTests
         [TestMethod]
         public void Roundtrip()
         {
+            Span<char> buffer = stackalloc char[6];
+
             for (var i = 0; i <= ushort.MaxValue; i++)
             {
-                var str = ((ushort)i).BalderHash();
+                ((ushort)i).BalderHash(buffer);
+                var str = buffer.ToString();
+
                 Console.WriteLine(str);
-                var b = BalderHash16.Parse(str);
+                var b = BalderHash16.Parse(buffer);
 
                 Assert.IsNotNull(b);
                 Assert.AreEqual(i, b.Value.Value);
